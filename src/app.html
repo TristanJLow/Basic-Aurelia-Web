@@ -1,0 +1,50 @@
+<template>
+<body>
+    <div class='header'>
+        <h1>${heading}</h1>
+    </div>
+
+    <form submit.trigger="addTodo()">
+        <input type="text" value.bind="todoDescription">
+        <input type="date" value.bind="todoTime">
+        <button type="submit">Add Todo</button>
+    </form>
+
+    <h2>Anytime</h2>
+    <ul>
+        <li repeat.for="todo of todos" if.bind="!todo.done && !todo.time">
+            <input type="checkbox" checked.bind="todo.done">
+            <span css="text-decoration: ${todo.done ? 'line-through' : 'none'}">
+                ${todo.description}
+            </span>
+            <button click.trigger="removeTodo(todo)">Remove</button>
+        </li>    
+    </ul>
+    <h2>Upcoming</h2>
+    ${sortTodoTime()}
+    <!-- Implement a function call to sort todo before printing. -->
+    <ul>
+        <li repeat.for="todo of todos" if.bind="!todo.done && todo.time">
+            <input type="checkbox" checked.bind="todo.done">
+            <span css="text-decoration: ${todo.done ? 'line-through' : 'none'}">
+                ${todo.description}
+                <br>
+                ${todo.time}
+            </span>
+            <button click.trigger="removeTodo(todo)">Remove</button>
+        </li>    
+    </ul>
+    <h2>Completed</h2>
+    <!-- Implement inserting local time when completing reminder, then sort completed by when it was completed. -->
+    ${sortTodoCompleted()}
+    <ul>
+        <li repeat.for="todo of todos" if.bind="todo.done">
+            <input type="checkbox" checked.bind="todo.done">
+            <span css="text-decoration: ${todo.done ? 'line-through' : 'none'}">
+                ${todo.description}
+            </span>
+            <button click.trigger="removeTodo(todo)">Remove</button>
+        </li>    
+    </ul>
+</body>
+</template>
